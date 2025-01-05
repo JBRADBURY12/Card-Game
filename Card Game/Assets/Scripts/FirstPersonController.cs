@@ -17,13 +17,19 @@ public class FirstPersonController : MonoBehaviour
     [Header("Inputs Customisation")]
     [SerializeField] private string horizontalMoveInput = "Horizontal";
     [SerializeField] private string verticalMoveInput = "Vertical";
-
     [SerializeField] private string MouseXInput = "Mouse X";
     [SerializeField] private string MouseYInput = "Mouse Y";
     [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
 
+    [Header("Footstep Sounds")]
+    [SerializeField] private AudioSource footstepSource;
+    [SerializeField] private AudioClip[] footstepSounds;
+    [SerializeField] private float walkStepInterval = 0.5f;
+    [SerializeField] private float sprintStepInterval = 0.3f;
+    [SerializeField] private float velocityStepThreshold = 2.0f;
 
+    private float nextStepTime;
     private Camera mainCamera;
     private float verticalRotation;
     private Vector3 currentMovement = Vector3.zero;
@@ -39,11 +45,16 @@ public class FirstPersonController : MonoBehaviour
     private void Update() {
         HandleMovement();
         HandleRotation();
+        HandleFootsteps();
     }
 
     void HandleMovement()
     {
+        float verticalInput = Input.GetAxis(verticalMoveInput);
         float speedMultiplier = Input.GetKey(sprintKey) ? sprintMultiplier : 1f;
+
+        float verticalSpeed = verticalInput * walkSpeed * speedMultiplier;
+        float horizontalSpeed = Input.GetAxis(horizontalMoveInput) * walkSpeed * speedMultiplier;
 
         // Use Input.GetAxisRaw or the character will keep moving a few frames after button release.
         Vector3 horizontalMovement = new Vector3(Input.GetAxisRaw(horizontalMoveInput), 0, Input.GetAxisRaw(verticalMoveInput)).normalized;
@@ -76,5 +87,14 @@ public class FirstPersonController : MonoBehaviour
         verticalRotation -= Input.GetAxis(MouseYInput) * mouseSensitivity;
         verticalRotation = Mathf.Clamp(verticalRotation, -upDownRange, upDownRange);
         mainCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+    }
+
+    void HandleFootsteps() {
+        if(currentMovement.magnitude > velocityStepThreshold && characterController.isGrounded) {
+            if(Time.time > nextStepTime) {
+                nextStepTime = Time.time + (Input.GetKey(sprintKey) ? sprintStepInterval : walkStepInterval);
+                footstepSource.PlayOneShot(footstepSounds[Random.Range(0, footstepSounds.Length)]);
+            }
+        }
     }
 }
