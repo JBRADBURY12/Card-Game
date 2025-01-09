@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea785e4aa7745fa44a3d109d4d25c06b, type: 3}
+  m_Name: TestCard
+  m_EditorClassIdentifier: 
+  cardName: Nolan Hults
+  cardDescription: Nolan Benson Hults, known terrorist in the U.S.
+  cardSpellDescription: Fireball - Shoots a fireball at one unlucky bystander
+  cardAttackDescription: Autistic Rant - Does 30 true damage to everyone in the room
+  cardType: 0
+  cardArt: {fileID: 0}
+  cardID: 0
+  cardTier: 0
+  cardCost: 0
+  cardSpellCost: 0
+  cardKnockoutPoints: 0
+  cardHealth: 0
+  cardAttackDamage: 0
+  cardSpellDamage: 0
+  rarity: 8
+  quality: 14
