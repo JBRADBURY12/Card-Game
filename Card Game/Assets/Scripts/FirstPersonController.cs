@@ -29,6 +29,7 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float sprintStepInterval = 0.3f;
     [SerializeField] private float velocityStepThreshold = 2.0f;
 
+    private bool isMoving;
     private float nextStepTime;
     private Camera mainCamera;
     private float verticalRotation;
@@ -51,10 +52,11 @@ public class FirstPersonController : MonoBehaviour
     void HandleMovement()
     {
         float verticalInput = Input.GetAxis(verticalMoveInput);
+        float horizontalInput = Input.GetAxis(horizontalMoveInput);
         float speedMultiplier = Input.GetKey(sprintKey) ? sprintMultiplier : 1f;
 
         float verticalSpeed = verticalInput * walkSpeed * speedMultiplier;
-        float horizontalSpeed = Input.GetAxis(horizontalMoveInput) * walkSpeed * speedMultiplier;
+        float horizontalSpeed = horizontalInput * walkSpeed * speedMultiplier;
 
         // Use Input.GetAxisRaw or the character will keep moving a few frames after button release.
         Vector3 horizontalMovement = new Vector3(Input.GetAxisRaw(horizontalMoveInput), 0, Input.GetAxisRaw(verticalMoveInput)).normalized;
@@ -62,10 +64,12 @@ public class FirstPersonController : MonoBehaviour
         
         HandleGravityAndJumping();
 
-        currentMovement.x = horizontalMovement.x * walkSpeed * speedMultiplier;
-        currentMovement.z = horizontalMovement.z * walkSpeed * speedMultiplier;
+        currentMovement.x = horizontalMovement.x;
+        currentMovement.z = horizontalMovement.z;
         
         characterController.Move(currentMovement  * Time.deltaTime);
+
+        isMoving = verticalInput != 0 || horizontalInput != 0;
     }
 
     void HandleGravityAndJumping() {
