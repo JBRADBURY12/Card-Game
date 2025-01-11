@@ -565,7 +565,7 @@
     "m_Title": "Foil Pattern",
     "m_Position": {
         "x": -1836.0,
-        "y": 70.99999237060547
+        "y": 71.0
     }
 }
 
@@ -2895,7 +2895,7 @@
     "m_ObjectId": "da551b0c726046cf8eddccfbafbc3198",
     "m_Title": "Change Color Based on View Direction",
     "m_Position": {
-        "x": -1845.9998779296875,
+        "x": -1846.0,
         "y": -597.0
     }
 }
